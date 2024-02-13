@@ -1,0 +1,122 @@
+﻿@*@model IEnumerable<EcommerceNicolas.Models.Carrito>
+
+
+@{
+    ViewBag.Title = "Index";
+    decimal TotalCarrito = 0;
+}*@
+
+
+
+<h2>Index Carrito</h2>
+
+@*@if (@ViewBag.MensajeError != "")
+{
+    <span class="text-danger">
+        <h5>Error: @ViewBag.MensajeError</h5>
+    </span>
+}
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+
+                <th>Producto</th>
+                <th>Cantidad</th>
+
+                <th>Precio Unitario</th>
+                <th>Subtotal</th>
+                <th>Detalle</th>
+                <th>Actualizar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+
+        <tbody class="table-group-divider">
+            @foreach (var item in Model)
+            {
+                <form method="post" action="Carrito/ActualizarCarrito">
+                <tr>
+
+                    <td>@item.DescripcionProducto</td>
+                    <td>
+                        <input id="cantidad" type="number" name="cantidad" min="1" value="@item.Cantidad" class="form-control w-25" />
+                    </td>
+
+                    <td>@item.PrecioUnitario.ToString("C")</td>
+                    <td>@item.Subtotal.ToString("C")</td>
+                    <td>
+
+                        <a href="/Productos/DetalleProducto/@item.ProductoId">Detalle Producto</a>
+
+
+                    </td>
+
+
+                    <td>
+                        <input id="id_producto" name="id_producto" type="hidden" value="@item.ProductoId" />
+                        <input id="Submit1" type="submit" value="Actualizar" class="btn btn-primary btn-sm" />
+                    </td>
+
+
+                    <td>
+
+                        <a class="btn btn-danger btn-sm" onclick="javascript: return confirm('Está seguro que desea eliminar el producto?');" href="/Carrito/EliminarDelCarrito?id_producto=@item.ProductoId">Eliminar</a>
+
+                    </td>
+                </tr>
+                </form>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<br />
+
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+
+                <th>Total Carrito</th>
+
+
+
+            </tr>
+        </thead>
+
+        <tbody class="table-group-divider">
+
+            <tr>
+
+                <td>
+
+                    @foreach (var item in Model)
+                    {
+
+
+                        TotalCarrito = TotalCarrito + @item.Subtotal;
+                    }
+
+                    @TotalCarrito.ToString("C")
+                </td>
+
+
+
+            </tr>
+
+
+
+        </tbody>
+    </table>
+</div>
+
+
+<br />
+<br />
+<form method="post" action="Orden/GuardarOrden">
+    <input id="Enviar" type="submit" value="Enviar Orden" class="btn btn-primary btn-sm" />
+</form>*@

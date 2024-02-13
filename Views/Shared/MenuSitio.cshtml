@@ -1,0 +1,69 @@
+﻿@{
+    var Categorias = ViewData["Categorias"] as List<EcommerceNicolas.Models.ProductoCategorias>;
+}
+
+<div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
+    <ul class="navbar-nav flex-grow-1">
+        <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+        <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+        <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+
+
+
+        <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Categorías
+                </a>
+                <ul class="dropdown-menu">
+
+                    @foreach (var item in Categorias)
+                    {
+                        <li><a class="dropdown-item" href="/Productos/@item.id">@item.Descripcion</a></li>
+                    }
+
+
+                </ul>
+            </li>
+
+
+
+        @if (Session["ID"] != null || Request.IsAuthenticated == true)
+        {
+            <li>@Html.ActionLink("Carrito", "Index", "Carrito", new { area = "" }, new { @class = "nav-link" })</li>
+
+
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Mis Datos
+                </a>
+                <ul class="dropdown-menu">
+
+                    <li>@Html.ActionLink("Mis Datos", "MisDatos", "Usuarios", new { area = "" }, new { @class = "dropdown-item" })</li>
+
+                    <li>@Html.ActionLink("Mis Ordenes", "MisOrdenes", "Orden", new { area = "" }, new { @class = "dropdown-item" })</li>
+
+
+                </ul>
+            </li>
+
+
+            <li>@Html.ActionLink("Salir", "Logout", "Usuarios", new { area = "" }, new { @class = "nav-link" })</li>
+
+        }
+        else
+        {
+
+            <li>@Html.ActionLink("Registro", "Registro", "Usuarios", new { area = "" }, new { @class = "nav-link" })</li>
+
+            <li>@Html.ActionLink("Login", "Login", "Usuarios", new { area = "" }, new { @class = "nav-link" })</li>
+
+        }
+
+
+
+
+
+
+    </ul>
+</div>

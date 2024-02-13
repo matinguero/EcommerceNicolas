@@ -1,0 +1,27 @@
+﻿@model EcommerceNicolas.Models.Producto
+
+@{
+    ViewBag.Title = "Detalle de Producto";
+}
+
+<h2>DetalleProducto</h2>
+
+<br />
+
+<p>Nombre: @Model.Nombre</p>
+<p>Precio: @Model.Precio.ToString("C")</p>
+<p>Categoria: @Model.Categoria</p>
+
+
+
+@if (Session["ID"] != null || Request.IsAuthenticated == true)
+{
+    <form action="~/Carrito/AgregarAlCarrito" method="post">
+
+        Cantidad: <input id="iCantidad" name="iCantidad" type="number" class="form-control w-25" />
+        <input type="hidden" name="id_producto" value="@Model.id" />
+        <input type="hidden" name="iIdUsuario" value="@Session["ID"]" />
+
+        <input id="Enviar" type="submit" value="Agregar al Carrito" class="btn btn-primary btn-sm" />
+    </form>
+}

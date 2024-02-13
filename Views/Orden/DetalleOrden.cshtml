@@ -1,0 +1,55 @@
+﻿@model IEnumerable<EcommerceNicolas.Models.DetalleOrden>
+@{
+    ViewBag.Title = "Detalle de una Orden";
+}
+
+<h2>Detalle de Orden: @ViewBag.OrderID</h2>
+
+
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+
+                <th>Orden ID</th>
+
+                <th>Producto</th>
+
+                <th>Costo</th>
+
+                <th>Cantidad</th>
+
+               
+
+            </tr>
+        </thead>
+
+        <tbody class="table-group-divider">
+            @foreach (var item in Model)
+            {
+
+                <tr>
+
+                    <td>@item.OrderId</td>
+
+
+                    <td>@item.DescripcionProducto.ToString()</td>
+                    <td>@item.CostoUnitario.ToString("C")</td>
+                    <td>
+
+                        @item.Cantidad.ToString()
+
+
+                    </td>
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<br />
+
