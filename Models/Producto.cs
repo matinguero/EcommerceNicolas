@@ -81,7 +81,7 @@ namespace EcommerceNicolas.Models
                 MyDataAdapter = new SqlDataAdapter("spObtenerProducto", MyConnection);
                 MyDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
 
-                //MyDataAdapter.SelectCommand.Parameters.AddWithValue("@categoria_id", CategoriaId);
+                MyDataAdapter.SelectCommand.Parameters.AddWithValue("@categoria_id", CategoriaId);
                 MyDataAdapter.SelectCommand.Parameters.AddWithValue("@producto_id", iProductoid);
 
 

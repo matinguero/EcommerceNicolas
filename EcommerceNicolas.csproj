@@ -136,8 +136,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BD\BD%2827-02-2024%29.sql" />
+    <Content Include="BD\BD 27-02-2024 4-00AM.sql" />
+    <Content Include="BD\BD%2827-02-2024 12-58AM%29.sql" />
+    <Content Include="BD\FunctionSQLMontoCarrito.txt" />
     <Content Include="BD\script.sql" />
+    <Content Include="BD\StoredProcedureGuardarOrden.txt" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />

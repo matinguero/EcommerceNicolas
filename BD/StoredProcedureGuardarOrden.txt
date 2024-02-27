@@ -1,0 +1,124 @@
+﻿USE [EcommerceCurso2]
+GO
+/****** Object:  StoredProcedure [dbo].[spGuardarOrden]    Script Date: 30/1/2024 11:47:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [dbo].[spGuardarOrden] 
+	-- Add the parameters for the stored procedure here
+	@usuario_id as int, 
+	@OrderID as int OUTPUT
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	
+
+BEGIN TRAN
+
+	BEGIN TRY
+
+		--CALCULAR MONTO TOTAL
+		Declare @MontoTotal as float = 0
+		--TENGO QUE CALCULAR EL TOTAL DEL CARRITO
+		set @MontoTotal = (Select dbo.DevolverMontoCarrito(@usuario_id))
+
+		--OBTENER COTIZACION ID
+		Declare @CotizacionId as int = 0
+		set @CotizacionId = (Select top 1 id from Cotizacion where fecha_fin is null)
+
+		--*************************************************************************************************INSERTO LA ORDEN**************************************************************************************************************************
+		Declare @NewOrderID as int
+	
+		Insert into Orden
+		 (Fecha_orden,
+		 costo_total,
+		 usuario_id,
+		 cotizacion_id
+		) 
+	 VALUES 
+		(
+		 getdate(),
+		 @MontoTotal,
+		 @usuario_id,
+		 @CotizacionId
+		)
+		
+		--VARIABLE DE SQL QUE DEVUELVE EL ULTIMO ID IDENTITY QUE SE GUARDO
+		Select @NewOrderID = SCOPE_IDENTITY() 
+
+		--SETEO EL VALOR DE LA VARIABLE DE SALIDA
+		Set @OrderID = @NewOrderID
+
+		--CURSOR PARA INSERTAR DETALLE ORDEN
+		--*************************************************************************************DETALLES DE LA ORDEN***************************************************************************************
+		-- Declaro las variables del cursor
+		DECLARE @ProductoId as int, @Cantidad as int, @PrecioUnitario as float
+	
+		--declaro el cursor
+		DECLARE Shopping_tabla CURSOR FOR
+	
+		SELECT     Carrito.producto_id, Carrito.Cantidad, Carrito.precio_unitario
+		FROM         Carrito
+		WHERE     Carrito.usuario_id= @usuario_id
+	
+		--abro el cursor
+		OPEN Shopping_tabla
+		--hago el FETCH del primer registro
+		FETCH NEXT FROM Shopping_tabla
+		INTO @ProductoId, @Cantidad, @PrecioUnitario
+	
+		--mientras haya registros
+		WHILE @@FETCH_STATUS = 0
+		BEGIN
+		
+				--INSERTO EL DETALLE
+				Insert into OrdenDetalle ([orden_id] ,[producto_id],[Cantidad],[precio_unitario]) 
+				VALUES 
+				(@NewOrderID, @ProductoId, @Cantidad, @PrecioUnitario) 
+						
+				--CHEQUEAR SI HAY STOCK
+				--SI NO LO HAY YO LANZO UN ERROR
+				--IF cantidadcomprada > cantidadstock
+				--RAISERROR ('No hay stock para el producto',16,1);
+
+			
+				--ACTUALIZO EL STOCK DEL PRODUCTO
+				Update Productos set Stock = Stock - @Cantidad where id = @ProductoId
+			
+		FETCH NEXT FROM Shopping_tabla
+		INTO @ProductoId, @Cantidad, @PrecioUnitario
+		END
+		CLOSE Shopping_tabla
+		DEALLOCATE Shopping_tabla
+		
+		--BORRO DEL SHOPPING_CART
+		Delete from Carrito where usuario_id=@usuario_id
+
+		COMMIT TRANSACTION 
+
+	END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK TRANSACTION 
+			Declare @mensaje as varchar(400)
+			--VARIABLE QUE CONTIENE EL MENSAJE DE ERROR
+			set @mensaje = ERROR_MESSAGE()
+			RAISERROR (@mensaje,16,1);
+			return -9999
+        END
+    END CATCH
+
+
+
+    
+END
