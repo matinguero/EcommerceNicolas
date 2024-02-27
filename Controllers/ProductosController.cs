@@ -20,6 +20,7 @@ namespace EcommerceNicolas.Controllers
 
         public ActionResult DetalleProducto(int id_producto, int id_categoria)
         {
+            //TODO:TERMINAR DETALLE EN FRONT END
             string sRet = "";
             Models.Producto DetalleProducto = Producto.ObtenerProducto(id_producto,id_categoria, ref sRet);
 

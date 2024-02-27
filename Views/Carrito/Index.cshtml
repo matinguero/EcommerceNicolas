@@ -1,16 +1,16 @@
-﻿@*@model IEnumerable<EcommerceNicolas.Models.Carrito>
+﻿@model IEnumerable<EcommerceNicolas.Models.Carrito>
 
 
 @{
     ViewBag.Title = "Index";
     decimal TotalCarrito = 0;
-}*@
+}
 
 
 
 <h2>Index Carrito</h2>
 
-@*@if (@ViewBag.MensajeError != "")
+@if (@ViewBag.MensajeError != "")
 {
     <span class="text-danger">
         <h5>Error: @ViewBag.MensajeError</h5>
@@ -119,4 +119,4 @@
 <br />
 <form method="post" action="Orden/GuardarOrden">
     <input id="Enviar" type="submit" value="Enviar Orden" class="btn btn-primary btn-sm" />
-</form>*@
+</form>
