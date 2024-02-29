@@ -31,7 +31,7 @@ namespace EcommerceNicolas.Controllers
 
 
 
-            
+
         }
 
         [Authorize]
@@ -48,7 +48,7 @@ namespace EcommerceNicolas.Controllers
             return View(ListaDetalleOrden);
 
 
-           
+
         }
 
 
@@ -89,5 +89,10 @@ namespace EcommerceNicolas.Controllers
 
 
 
+
     }
+
+
+
+
 }
