@@ -26,7 +26,7 @@ namespace EcommerceNicolas.Models
 
             SqlConnection MyConnection = default(SqlConnection);
             SqlDataAdapter MyDataAdapter = default(SqlDataAdapter);
-
+            //PRUEBAAA
             try
             {
                 MyConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionStringSQL"].ConnectionString);
