@@ -57,5 +57,121 @@ namespace EcommerceNicolas.Models
 
 
 
+        public static string ObtenerUsuario(int Id, ref DataTable dt)
+        {
+            SqlConnection MyConnection = default(SqlConnection);
+            SqlDataAdapter MyDataAdapter = default(SqlDataAdapter);
+
+            try
+            {
+                MyConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionStringSQL"].ConnectionString);
+                MyDataAdapter = new SqlDataAdapter("spObtenerUsuario", MyConnection);
+                MyDataAdapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+
+
+                MyDataAdapter.SelectCommand.Parameters.Add("@id", SqlDbType.Int);
+                MyDataAdapter.SelectCommand.Parameters["@id"].Value = Id;
+
+
+
+
+                //dt = new DataTable();
+                MyDataAdapter.Fill(dt);
+                return "";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+
+
+        public static string ModificarUsuario(int iId, string sNombre, string sApellido, string sClave)
+        {
+            string sRet = "";
+
+            SqlConnection MyConnection = default(SqlConnection);
+            SqlCommand MySqlCommand = default(SqlCommand);
+
+            try
+            {
+                MyConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionStringSQL"].ConnectionString);
+                MySqlCommand = new SqlCommand("spModificarUsuario", MyConnection);
+                MySqlCommand.CommandType = CommandType.StoredProcedure;
+
+                MySqlCommand.Parameters.AddWithValue("@id", iId);
+                MySqlCommand.Parameters.AddWithValue("@Nombre", sNombre);
+                MySqlCommand.Parameters.AddWithValue("@Apellido", sApellido);
+                MySqlCommand.Parameters.AddWithValue("@Clave", sClave);
+
+
+                MyConnection.Open();
+                MySqlCommand.ExecuteNonQuery();
+                MyConnection.Close();
+                MyConnection.Dispose();
+
+
+
+
+                sRet = "";
+
+            }
+            catch (Exception ex)
+            {
+                sRet = ex.Message;
+
+            }
+
+
+
+            return sRet;
+        }
+
+
+
+        public static string InsertarUsuario(string sUsuario, string sNombre, string sApellido, string sClave)
+        {
+            string sRet = "";
+
+            SqlConnection MyConnection = default(SqlConnection);
+            SqlCommand MySqlCommand = default(SqlCommand);
+
+            try
+            {
+                MyConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionStringSQL"].ConnectionString);
+                MySqlCommand = new SqlCommand("spInsertarUsuario", MyConnection);
+                MySqlCommand.CommandType = CommandType.StoredProcedure;
+
+                MySqlCommand.Parameters.AddWithValue("@Email", sUsuario);
+                MySqlCommand.Parameters.AddWithValue("@Nombre", sNombre);
+                MySqlCommand.Parameters.AddWithValue("@Apellido", sApellido);
+                MySqlCommand.Parameters.AddWithValue("@Clave", sClave);
+
+
+                MyConnection.Open();
+                MySqlCommand.ExecuteNonQuery();
+                MyConnection.Close();
+                MyConnection.Dispose();
+
+
+
+
+                sRet = "";
+
+            }
+            catch (Exception ex)
+            {
+                sRet = ex.Message;
+
+            }
+
+
+
+            return sRet;
+        }
+
+
+
     }
 }

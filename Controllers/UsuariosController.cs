@@ -25,12 +25,116 @@ namespace EcommerceNicolas.Controllers
         [Authorize]
         public ActionResult MisDatos()
         {
-            return View();
+            Usuario usuario = new Usuario();
+
+            string sRet = "";
+            DataTable dt = new DataTable();
+            sRet = Models.Usuario.ObtenerUsuario(int.Parse(Session["ID"].ToString()), ref dt);
+
+            if (sRet != "")
+            {
+                ViewBag.Message = "Error al obtener el usuario: " + sRet;
+
+            }
+
+
+            if (dt.Rows.Count == 1)
+            {
+                usuario.Id = int.Parse(dt.Rows[0]["id"].ToString());
+                usuario.Email = (dt.Rows[0]["email"].ToString());
+                usuario.Nombre = (dt.Rows[0]["Nombre"].ToString());
+                usuario.Apellido = (dt.Rows[0]["Apellido"].ToString());
+                usuario.Clave = (dt.Rows[0]["Clave"].ToString());
+            }
+
+            return View(usuario);
         }
+
+
+        [HttpPost]
+        public ActionResult ModificarDatosUsuario(Models.Usuario model)
+        {
+
+
+            if (ModelState.IsValid)
+            {
+
+
+                string sRet = "";
+                DataTable dt = new DataTable();
+
+                sRet = Models.Usuario.ModificarUsuario(int.Parse(Session["ID"].ToString()), model.Nombre, model.Apellido, model.Clave);
+
+                if (sRet != "")
+                {
+                    ViewBag.Message = "Error en el login - " + sRet;
+                    return Redirect("~/Usuarios/MisDatos");
+                }
+                else
+                {
+                    return Redirect("~/Home/Index");
+                }
+
+
+
+            }
+            else
+            {
+                return Redirect("~/Home/Index");
+            }
+
+
+
+
+
+
+        }
+
+
+        [HttpPost]
+        public ActionResult InsertarDatosUsuario(Models.Usuario model)
+        {
+
+
+            if (ModelState.IsValid)
+            {
+
+
+                string sRet = "";
+                DataTable dt = new DataTable();
+
+                sRet = Models.Usuario.InsertarUsuario(model.Email, model.Nombre, model.Apellido, model.Clave);
+
+                if (sRet != "")
+                {
+                    ViewBag.Message = "Error en el insert - " + sRet;
+                    return Redirect("~/Home/Index");
+                }
+                else
+                {
+                    return Redirect("~/Usuarios/Login");
+                }
+
+
+
+            }
+            else
+            {
+                return Redirect("~/Home/Index");
+            }
+
+
+
+
+
+
+        }
+
 
         public ActionResult Registro()
         {
-            return View();
+            Usuario usuario = new Usuario();
+            return View(usuario);
         }
 
 

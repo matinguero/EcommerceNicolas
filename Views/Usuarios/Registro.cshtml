@@ -1,7 +1,65 @@
-﻿
+﻿@model EcommerceNicolas.Models.Usuario
+
 @{
     ViewBag.Title = "Registro de usuario";
 }
 
 <h2>Registro</h2>
+
+
+
+<div>
+
+    <form action="@Url.Action("InsertarDatosUsuario", "Usuarios")" method="post" autocomplete="off">
+
+        <input autocomplete="false" name="hidden" type="hidden">
+
+
+        @Html.AntiForgeryToken()
+
+
+        <div class="col-10 mb-3">
+            <label for="Campo1">Usuario:</label>
+            <input type="email" name="Email" id="Email" value="@Model.Email" class="form-control" autocomplete="off" placeholder="Ingrese el Usuario" />
+            <span class="text-danger">@Html.ValidationMessage("Email")</span>
+        </div>
+
+        <div class="col-10 mb-3">
+            <label for="Campo2">Clave:</label>
+            <input type="password" name="Clave" id="Clave" value="@Model.Clave" class="form-control" autocomplete="off" placeholder="Ingrese la clave" />
+            <span class="text-danger">@Html.ValidationMessage("Clave")</span>
+        </div>
+
+        <div class="col-10 mb-3">
+            <label for="Campo2">Nombre:</label>
+            <input type="text" name="Nombre" id="Nombre" value="@Model.Nombre" class="form-control" autocomplete="off" placeholder="Ingrese la clave" />
+            <span class="text-danger">@Html.ValidationMessage("Nombre")</span>
+        </div>
+
+
+        <div class="col-10 mb-3">
+            <label for="Campo2">Apellido:</label>
+            <input type="text" name="Apellido" id="Apellido" value="@Model.Apellido" class="form-control" autocomplete="off" placeholder="Ingrese la clave" />
+            <span class="text-danger">@Html.ValidationMessage("Apellido")</span>
+        </div>
+
+
+        <input id="id" name="id" type="hidden" value="0" />
+
+        <div class="d-grid gap-2 col-12">
+            <div class="text-danger text-center">
+
+                <h6>@ViewBag.Message</h6>
+            </div>
+        </div>
+
+        <br />
+        <div class="d-grid gap-2 col-8">
+
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </div>
+    </form>
+
+</div>
+
 
