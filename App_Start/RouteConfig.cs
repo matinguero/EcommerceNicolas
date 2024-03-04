@@ -32,6 +32,17 @@ namespace EcommerceNicolas
             );
 
             routes.MapRoute(
+                name: "DetalleOrden",
+                url: "Orden/DetalleOrden/{iOrden}",
+                defaults: new { controller = "Orden", action = "DetalleOrden", iOrden = UrlParameter.Optional }
+            );
+
+
+
+
+
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
