@@ -55,6 +55,8 @@ namespace EcommerceNicolas.Controllers
         [Authorize]
         public ActionResult GuardarOrden()
         {
+            Session["ERRORORDEN"] = null;
+
 
             int iOrderID = 0;
 
@@ -78,7 +80,8 @@ namespace EcommerceNicolas.Controllers
             }
             else
             {
-                return RedirectToAction("Index?message=" + sRet, "Carrito");
+                Session["ERRORORDEN"] = sRet;
+                return RedirectToAction("Index", "Carrito");
             }
 
 
